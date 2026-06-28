@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopSphere | Ultimate Online Shopping</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" id="brand-logo"><i class="fa-solid fa-layer-group"></i> ShopSphere</a>
+            
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search for products, brands, and categories...">
+                <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <div class="nav-actions">
+                <button id="theme-toggle" class="nav-btn" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button id="wishlist-btn" class="nav-btn" title="Wishlist">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="badge" id="wishlist-count">0</span>
+                </button>
+                <button id="cart-btn" class="nav-btn" title="Cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge" id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">Exclusive Summer Sale</span>
+            <h1>Upgrade Your Lifestyle Showcase</h1>
+            <p>Discover tech innovations, premium fashion trends, and essentials crafted for your modern routine.</p>
+            <button class="btn btn-primary" id="hero-shop-now">Shop Now <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </header>
+
+    <main class="container main-layout">
+        
+        <aside class="sidebar">
+            <div class="filter-section">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li class="category-item active" data-category="all">All Categories</li>
+                    <li class="category-item" data-category="Electronics">Electronics</li>
+                    <li class="category-item" data-category="Fashion">Fashion</li>
+                    <li class="category-item" data-category="Home Appliances">Home Appliances</li>
+                    <li class="category-item" data-category="Sports">Sports</li>
+                    <li class="category-item" data-category="Beauty">Beauty</li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <h3>Sort By</h3>
+                <select id="sort-select" class="form-control">
+                    <option value="default">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Customer Rating</option>
+                </select>
+            </div>
+
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <div class="price-range-container">
+                    <input type="range" id="price-range" min="0" max="2000" value="2000" step="50">
+                    <div class="price-labels">
+                        <span>$0</span>
+                        <span id="price-max-label">$2000</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="products-container">
+            <div class="section-header">
+                <h2 id="current-category-title">Featured Products</h2>
+                <span id="products-count-msg">Showing products</span>
+            </div>
+            
+            <div class="products-grid" id="skeleton-grid">
+                </div>
+
+            <div class="products-grid hidden" id="products-grid"></div>
+            <div id="no-products-msg" class="no-products hidden">
+                <i class="fa-solid fa-box-open"></i>
+                <p>No products match your search criteria.</p>
+            </div>
+        </section>
+    </main>
+
+    <section class="container secondary-showcase hidden" id="recent-showcase-section">
+        <hr class="divider">
+        <h2>Recently Viewed Products</h2>
+        <div class="products-grid horizontal-scroll" id="recent-grid"></div>
+    </section>
+
+    <div class="drawer-overlay" id="cart-overlay">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h2>Your Shopping Cart (<span id="cart-drawer-count">0</span>)</h2>
+                <button class="close-btn" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-content" id="cart-items-container">
+                </div>
+            <div class="drawer-footer">
+                <div class="summary-line">
+                    <span>Subtotal:</span>
+                    <span id="cart-total-price" class="price-accent">$0.00</span>
+                </div>
+                <button class="btn btn-block btn-primary" id="checkout-trigger-btn" disabled>Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="drawer-overlay" id="wishlist-overlay">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h2>Your Wishlist (<span id="wishlist-drawer-count">0</span>)</h2>
+                <button class="close-btn" id="close-wishlist"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-content" id="wishlist-items-container">
+                </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="quickview-modal">
+        <div class="modal-card">
+            <button class="close-btn modal-close-pos" id="close-quickview"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body" id="quickview-body">
+                </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-card checkout-width">
+            <button class="close-btn modal-close-pos" id="close-checkout"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Secure Gateway Checkout</h2>
+            <div class="checkout-layout">
+                <form id="checkout-form" class="checkout-form">
+                    <h3>Shipping Address</h3>
+                    <div class="form-group">
+                        <label for="bill-name">Full Name</label>
+                        <input type="text" id="bill-name" class="form-control" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="bill-address">Street Address</label>
+                        <input type="text" id="bill-address" class="form-control" required placeholder="123 Luxury Ave">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bill-city">City</label>
+                            <input type="text" id="bill-city" class="form-control" required placeholder="New York">
+                        </div>
+                        <div class="form-group">
+                            <label for="bill-zip">Zip Code</label>
+                            <input type="text" id="bill-zip" class="form-control" required placeholder="10001">
+                        </div>
+                    </div>
+                    <h3>Payment Information</h3>
+                    <div class="payment-options">
+                        <label class="pay-radio active">
+                            <input type="radio" name="payment-method" value="card" checked>
+                            <i class="fa-solid fa-credit-card"></i> Credit / Debit Card
+                        </label>
+                        <label class="pay-radio">
+                            <input type="radio" name="payment-method" value="cod">
+                            <i class="fa-solid fa-truck"></i> Cash On Delivery
+                        </label>
+                    </div>
+                    <div id="card-details-fields">
+                        <div class="form-group">
+                            <label for="card-num">Card Number</label>
+                            <input type="text" id="card-num" class="form-control" placeholder="4111 2222 3333 4444">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block margin-top-md">Submit Order</button>
+                </form>
+                
+                <div class="order-summary-box">
+                    <h3>Order Summary</h3>
+                    <div id="checkout-summary-items"></div>
+                    <hr>
+                    <div class="summary-line font-bold">
+                        <span>Total Due:</span>
+                        <span id="checkout-total-price">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-card text-center text-padded">
+            <div class="success-icon-wrapper">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>Order Placed Successfully!</h2>
+            <p>Thank you for shopping with ShopSphere. Your luxury items will arrive shortly. Order Ref: <span id="order-reference-id" class="font-bold">#SS-0000</span></p>
+            <button class="btn btn-primary margin-top-md" id="success-close-btn">Continue Shopping</button>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 ShopSphere E-Commerce System Portfolio Project. Dynamic Vanilla Frontend Implementation.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
