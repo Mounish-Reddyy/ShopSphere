@@ -41,5 +41,5 @@ The workspace is strictly isolated into three modular files to enforce standard 
 ShopSphere/
 │
 ├── index.html   # Semantic layout structure, modal frameworks, and side drawer systems
-├── style.css    # Central theme engine, utility classes, responsive breakpoints, and animations
+├── styles.css    # Central theme engine, utility classes, responsive breakpoints, and animations
 └── script.js    # Data generator pipeline, filter/sort arrays, state handlers, and localStorage bridge
